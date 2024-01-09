@@ -1,51 +1,34 @@
 package com.example.dictionary.services;
 
 import com.example.dictionary.models.Word;
+import com.example.dictionary.repositories.WordRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class WordService {
-    private List<Word> words = new ArrayList<>();
-    private long ID = 0;
+    private final WordRepository wordRepository;
 
-    {
-        words.add(new Word(++ID,"behold","behold – определения\n" +
-                "ARCHAIC\n" +
-                "LITERARY\n" +
-                "Глагол\n" +
-                "1\n" +
-                "see or observe (a thing or person, especially a remarkable or impressive one).\n" +
-                "the botanical gardens were a wonder to behold"));
-        words.add(new Word(++ID,"behold","behold – определения\n" +
-                "ARCHAIC\n" +
-                "LITERARY\n" +
-                "Глагол\n" +
-                "1\n" +
-                "see or observe (a thing or person, especially a remarkable or impressive one).\n" +
-                "the botanical gardens were a wonder to behold"));
+    public List<Word> getWords(String englishWord) {
+        if (englishWord != null) return wordRepository.findAllByEnglishWord(englishWord);
+        return wordRepository.findAll();
     }
 
-    public List<Word> getWords() {
-        return words;
+    public void saveWord(Word word) {
+        log.info("Saving new {}", word);
+        wordRepository.save(word);
     }
 
-    public void saveWord(Word word){
-        word.setId(++ID);
-        words.add(word);
-    }
-
-    public void deleteWord(Long id){
-        words.removeIf(word -> word.getId().equals(id));
+    public void deleteWord(Long id) {
+        wordRepository.deleteById(id);
     }
 
     public Object getWordById(Long id) {
-        for (Word word:words){
-            if(word.getId().equals(id))
-                return word;
-        }
-        return null;
+        return wordRepository.findById(id).orElse(null);
     }
 }

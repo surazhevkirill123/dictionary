@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -15,8 +16,8 @@ public class WordController {
     private final WordService wordService;
 
     @GetMapping("/")
-    public String words(Model model){
-        model.addAttribute("words",wordService.getWords());
+    public String words(@RequestParam(name = "englishWord", required = false) String englishWord, Model model){
+        model.addAttribute("words",wordService.getWords(englishWord));
         return "words";
     }
 

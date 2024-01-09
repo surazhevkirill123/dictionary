@@ -4,8 +4,10 @@
 </head>
 <body>Hello world!</body>
 <h1>Dictionary</h1>
-<b>Word in english:</b><p><b>${word.englishWord}</b> </p>
-<b>Description:</b><p style="white-space:pre">${word.description}</p>
+<b>Word in english:</b>
+<p><b>${word.englishWord}</b></p>
+<b>Description:</b>
+<p style="white-space:pre">${word.description}</p>
 <form action="/word/delete/${word.id}" method="post">
     <input type="submit" value="Delete word"/>
 </form>
