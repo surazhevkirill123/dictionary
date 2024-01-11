@@ -4,6 +4,9 @@
 </head>
 <body>Hello world!</body>
 <h1>Dictionary</h1>
+<#list images as img>
+    <img src="/images/${img.id}" height="60px"/><br><br>
+</#list>
 <b>Word in english:</b>
 <p><b>${word.englishWord}</b></p>
 <b>Description:</b>

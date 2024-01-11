@@ -5,11 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "words")
 @Data
 @AllArgsConstructor
-@NoArgsConstructor //
+@NoArgsConstructor //for hibernate correct work
 public class Word {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,4 +23,20 @@ public class Word {
     private String englishWord;
     @Column(name = "description", columnDefinition = "text")
     private String description;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "word")
+    private List<Image> images = new ArrayList<>();
+    private Long previewImageId;
+    private LocalDateTime dateOfCreated;
+
+    @PrePersist
+    private void init() {
+        dateOfCreated = LocalDateTime.now();
+    }
+
+    public void addImageToWord(Image image) {
+        image.setWord(this);
+        images.add(image);
+    }
 }
